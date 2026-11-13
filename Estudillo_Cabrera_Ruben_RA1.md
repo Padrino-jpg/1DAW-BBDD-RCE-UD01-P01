@@ -82,14 +82,16 @@ En el proyecto participan **la gerente** (decide qué información necesita la e
 
 | Incidencia | Problema de los sistemas de ficheros | Datos del enunciado que lo demuestran |
 |---|---|---|
-| I1 | | |
-| I2 | | |
-| I3 | | |
-| I4 | | |
-| I5 | | |
-| I6 | | |
+| I1 | Aislamiento | Cadiz no puede localizar el numero porque utilizan diferentes tipos de archivos tanto Cadiz como Puerto Real |
+| I2 | Concurrencia | Han llamado a la vez, asi que, al ser un sistema de ficheros, atendera a las dos consultas. |
+| I3 | Dependencia | El programador necesita escribir un programa nuevo debido a que hay un cambio en los ficheros. "El informático necesita **escribir un programa nuevo** y unificar antes los dos formatos." |
+| I4 | Seguridad | El enunciado dice que un alumno de practicas puede ver el iban de todos los clientes, eso es porque es un sistema de ficheros. |
+| I5 | Integridad | el dato no es valido ya que dice que no existe, pero, como tienen un sistema de ficheros, no podra validarlo. |
+| I6 | Redundancia | Aparece el mismo dato repetido(Precio de vacuna) pero con dos precios diferentes asi que no se sabe cual es el verdadero. |
 
 **1.2.** (0,3 p) Observa el fichero `CITAS`. ¿Por qué el campo `MASCOTA` no puede usarse para identificar a cada animal? Propón un campo clave adecuado para un nuevo fichero `MASCOTAS` y justifica tu propuesta.
+
+Porque dos personas pueden llamar de igual manera a su mascota, como ya esta pasando con Rosa Medina y Tomás Vidal. Un campo adecuado seria ID_mascota, ya que permitiria señalar a las mascotas mediante ids, evitando la confusion por nombres.
 
 ---
 
@@ -97,9 +99,18 @@ En el proyecto participan **la gerente** (decide qué información necesita la e
 
 **2.1.** (0,5 p) Explica cómo evitaría un SGBD las incidencias **I2**, **I4** e **I5**, indicando en cada caso la **ventaja** del SGBD que lo permite.
 
+I2: El sgbd lo evita porque una de sus ventajas principales es la comparticion de datos, que permite miles de usuarios simultaneos haciendo operaciones.
+I4:El sgbd lo evita ya que la ventaja que tiene es una mayor seguridad, porque se asignan roles de usuario y dependiendo el usuario puede ver unas cosas u otras.
+I5:El sgbd lo evita ya que tiene mayor integridad, su nucleo comprueba si el dato es valido constantemente para que no de errores.
+
 **2.2.** (0,5 p) Indica **dos inconvenientes concretos** que tendría para Bahía implantar un SGBD y explica si, aun así, lo recomiendas.
 
+Uno de los inconvenientes que tendria la base de datos es su gran coste inicial, ademas de que es bastante larga y compleja, otro inconveniente seria que solo lo podrian utilizar aquellos usuarios que esten formados para ello, debido a su complejidad.
+La recomiendo porque tiene 900 clientes que son bastantes y tiene cuatro veterinarias, montar una bd permitiria guardar la informacion de manera ordenada y con busquedas mas rapidas.
+
 **2.3.** (0,3 p) Una veterinaria rural trabaja sola, con unos 20 clientes, y apunta sus visitas en un fichero de texto. ¿Le recomendarías un SGBD? Justifícalo comparando su situación con la de Bahía.
+
+No porque en este caso solo tiene 20 clientes(comparando con bahia que son 900, es mucho menos), la costosa inversion inicial no serviria de mucho ya que son muy pocas personas la que visitan la veterinaria y no le renta.
 
 ---
 
@@ -109,22 +120,22 @@ En el proyecto participan **la gerente** (decide qué información necesita la e
 
 | Nº | Situación | Elemento del SGBD | Tipo de usuario |
 |---|---|---|---|
-| 1 | La gerente decide que se registrará el número de microchip de cada mascota, lo que obliga a modificar la estructura de la tabla `MASCOTAS`. | | |
-| 2 | El técnico ejecuta `CREATE TABLE CITAS (...)`. | | |
-| 3 | El recepcionista consulta las citas de mañana de la Dra. Sanz. | | |
-| 4 | Se ejecuta `GRANT SELECT ON CITAS TO veterinarios;` | | |
-| 5 | El SGBD rechaza una cita porque el cliente no existe. | | |
-| 6 | El técnico consulta qué tablas existen y qué permisos tiene cada usuario. | | |
-| 7 | Se cargan en la base de datos los ficheros antiguos de las dos clínicas. | | |
-| 8 | La empresa externa programa la pantalla de la web que registra una cita nueva. | | |
+| 1 | La gerente decide que se registrará el número de microchip de cada mascota, lo que obliga a modificar la estructura de la tabla `MASCOTAS`. | DML | Administrador de datos |
+| 2 | El técnico ejecuta `CREATE TABLE CITAS (...)`. | DDL | Programador |
+| 3 | El recepcionista consulta las citas de mañana de la Dra. Sanz. | UTILIDADES | USUARIO FINAL |
+| 4 | Se ejecuta `GRANT SELECT ON CITAS TO veterinarios;` | DCL | Programador |
+| 5 | El SGBD rechaza una cita porque el cliente no existe. | NUCLEO | Automatico |
+| 6 | El técnico consulta qué tablas existen y qué permisos tiene cada usuario. | DICCIONARIO DE DATOS | Programador |
+| 7 | Se cargan en la base de datos los ficheros antiguos de las dos clínicas. | NUCLEO | Automatico |
+| 8 | La empresa externa programa la pantalla de la web que registra una cita nueva. | Ninguno | --- |
 
 **3.2.** (0,4 p) Para cada cambio, indica el **nivel de la arquitectura** que se modifica (interno, conceptual o externo), el **tipo de independencia** que interviene (si procede) y **a quién afecta**.
 
 | Cambio | Nivel | Independencia | ¿A quién afecta? |
 |---|---|---|---|
-| a) El técnico crea un índice sobre el DNI de los clientes para acelerar las búsquedas. | | | |
-| b) Se añade el campo `MICROCHIP` a la tabla `MASCOTAS`. | | | |
-| c) Se crea una vista para el alumno en prácticas que no muestra el IBAN. | | | |
+| a) El técnico crea un índice sobre el DNI de los clientes para acelerar las búsquedas. | INTERNO | FISICA | Afecta al que tenga que realizar una consulta ya que va mas rapido |
+| b) Se añade el campo `MICROCHIP` a la tabla `MASCOTAS`. | LOGICO | LOGICA | --- |
+| c) Se crea una vista para el alumno en prácticas que no muestra el IBAN. | EXTERNO | NO HAY INDEPENDENCIA, OCURRE EN LA VISTA DE LOS USUARIOS | --- |
 
 ---
 
@@ -138,9 +149,42 @@ Utiliza estos datos, extraídos del fichero `CITAS` (sin la cita errónea de CA-
 
 **4.1.** (0,5 p) Representa en **modelo jerárquico** la relación *clientes → mascotas*. Explica por qué este modelo **sí** encaja bien en este caso.
 
+```mermaid
+flowchart TD
+A[Clientes] --> B[Rosa Medina]
+A[Clientes] --> C[Tomas Vidal]
+B --> D[Luna - Perro]
+B --> E[Kiko - Gato]
+C --> F[Luna - Gato]
+
+```
+
+Encaja bien porque cada hijo tiene un solo padre, que es la regla principal de los sistemas jerarquicos.
+
 **4.2.** (0,5 p) Ahora intenta representar en modelo jerárquico la relación *veterinarios → mascotas atendidas*. Indica qué dato queda **duplicado**, explica por qué ocurre y qué modelo de los vistos en la unidad lo evitaría.
 
+```mermaid
+flowchart TD
+A[Sede] --> B[Veterinarios]
+B --> C[Dra. Sanz]
+B --> D[DR. Ortega]
+C --> E[Luna]
+C --> F[Luna]
+D --> G[Kiko]
+D --> E
+
+```
+Se ve duplicado Luna, ocurre porque hay dos mascotas que se llaman igual. Lo evitaria en el modelo relacional ya que ahi no hay redundancia gracias al sgbd
+
 **4.3.** (1 p) Diseña en **modelo relacional** las tablas `CLIENTES`, `MASCOTAS`, `VETERINARIOS` y `CITAS`. Indica sus campos principales, la **clave primaria** (PK) y las **claves externas** (FK).
+
+CLIENTES(ID_cliente(PK), DNI(PK), Nombre, direccion)
+
+MASCOTAS(ID_Mascota(PK), nombre_mascota, especie, raza)
+
+VETERINARIOS(ID_veterinario(PK), nombre, ID_citas(FK))
+
+CITAS(ID_citas(PK), ID_veterinario(FK), ID_Mascota(FK)
 
 ---
 
@@ -150,12 +194,14 @@ Completa la tabla. Si un sistema **no es un SGBD**, indícalo.
 
 | Sistema | ¿Es un SGBD? | Modelo de datos | Ubicación (centralizada / distribuida) | Usuarios (uno / varios simultáneos) | Configuración |
 |---|---|---|---|---|---|
-| A. El sistema actual: ficheros en el ordenador de cada clínica. | | | | | |
-| B. La veterinaria rural instala SQLite en su portátil. | | | | | |
-| C. MySQL en un servidor de Cádiz al que se conectan las dos clínicas. | | | | | |
-| D. Cada una de las tres clínicas tiene su propio servidor PostgreSQL y el conjunto funciona como una única base de datos. | | | | | |
+| A. El sistema actual: ficheros en el ordenador de cada clínica. |NO | --- | CENTRALIZADA | UNO | MONOEQUIPO |
+| B. La veterinaria rural instala SQLite en su portátil. | SI | RELACIONAL | CENTRALIZADA | MONOUSUARIO | MONOEQUIPO |
+| C. MySQL en un servidor de Cádiz al que se conectan las dos clínicas. | SI | RELACIONAL | DISTRIBUIDA | VARIOS SIMULTANEOS | CLIENTE-SERVIDOR |
+| D. Cada una de las tres clínicas tiene su propio servidor PostgreSQL y el conjunto funciona como una única base de datos. | SI | RELACIONAL | DISTRIBUIDA | VARIOS SIMULTANEOS | CLIENTE-SERVIDOR |
 
 Explica en dos líneas por qué el sistema A **no es** una base de datos distribuida, aunque la información esté en dos ordenadores.
+
+Porque es un sistema de ficheros, no un sgbd
 
 ---
 
@@ -170,16 +216,26 @@ Con la apertura de Chiclana, el técnico plantea dos opciones:
 
 | Opción | Ubicación de la información | Ventaja | Inconveniente |
 |---|---|---|---|
-| A | | | |
-| B | | | |
+| A | UN UNICO SERVIDOR CENTRAL | TODOS LOS DATOS SE GUARDAN EN UN MISMO SITIO | SI SE ROMPE, CAEN TODOS LOS SISTEMAS |
+| B | SERVIDORES EN CADA CLINICA | LA INFORMACION ESTA MEJOR DIVIDIDA | SI SE REGISTRAN DOS NOMBRES IGUALES EN DIFERENTES ZONAS, SE QUEDA ASI(REDUNDANCIA) |
 
 **6.2.** (0,5 p · RA1.c) La aplicación web seguirá una arquitectura de tres capas. Indica en qué capa (presentación, lógica o datos) se realiza cada tarea y justifica la tarea *b*:
 
 - **a)** Mostrar el formulario para pedir cita.
+
+NIVEL EXTERNO(PRESENTACION)
+
 - **b)** Comprobar que la hora elegida sigue libre.
+
+NIVEL LOGICO(ES EL PROGRAMA QUE SE ENCARGA DE LA BD Y SE ENCARGA DE SABER SI HAY SITIO O NO(ES EL CELEBRO)
 - **c)** Guardar la cita.
 
+NIVEL DATOS
+
 **6.3.** (1,2 p · RA1.g · RA1.h) Se corta la conexión a internet de la clínica de Puerto Real durante una mañana. ¿Qué ocurre en Puerto Real y en las otras clínicas con la opción A? ¿Y con la opción B?
+
+
+Con la opcion a se caen todos los sitemas de veterinarios porque es una base de datos centralizada mientras que con la B solo se cae la de Puerto Real porque la base de datos esta distribuida. 
 
 ---
 
